@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 15px;
+
+}
+
+#container {
+  margin: 10px auto;
+  width: 300px;
+  padding: 10px 30px;
+}
