@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const captchaRouter = require('./api/routes/captchaRoute');
+const userRouter = require('./api/routes/userRoute');
 const path = require('path');
 const mongoose = require('mongoose');
 
@@ -32,6 +33,7 @@ app.set('views', path.resolve('./src/views'))
 app.use(express.static(__dirname+'/src'));
 
 app.use('/captcha', captchaRouter)
+app.use('/user', userRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is LIVE at port: ${PORT}`);

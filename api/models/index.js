@@ -1,6 +1,8 @@
 // Dependencies
 const Captcha = require('./captcha');
+const User = require('./user');
 
 module.exports = {
-  Captcha
+  Captcha,
+  User
 }
