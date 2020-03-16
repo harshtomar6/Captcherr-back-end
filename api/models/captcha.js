@@ -7,6 +7,7 @@ const captchaSchema = new Schema({
   svg: { type: String, required: true },
   solved: { type: Boolean, default: false },
   validated: { type: Boolean },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date, default: Date.now },
 }, {
   versionKey: false

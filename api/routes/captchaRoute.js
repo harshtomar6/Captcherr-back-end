@@ -13,13 +13,23 @@ router.use(function(req, res, next) {
 // POST '/captcha' to create a new captcha
 router.post('/', async (req, res) => {
   let svgCaptcha = captcha.create({ background: '#cc9966' });
-  let { err, status, data } = await captchaController.addCaptcha(svgCaptcha.text, svgCaptcha.data);
+  let userId = req.body.key;
+
+  if(!userId)
+    return res.status(400).send({ err: 'API Key not present!', data: null })
+
+  let { err, status, data } = await captchaController.addCaptcha(svgCaptcha.text, svgCaptcha.data, userId);
   res.status(status).send({ err, data })
 });
 
 // POST '/captcha/validate' to validate captcha
 router.post('/validate', async (req, res) => {
-  let { err, status, data } = await captchaController.validateCaptcha(req.body.captchaId, req.body.text);
+  let { captchaId, text, key } = req.body
+
+  if(!captchaId || !text || !key)
+    return res.status(400).send({ err: 'Required Fields are not present!', data: null });
+
+  let { err, status, data } = await captchaController.validateCaptcha(captchaId, text, key);
   res.status(status).send({ err, data })
 })
 
