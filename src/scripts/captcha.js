@@ -1,9 +1,13 @@
 
 // Request Captcha from server
-async function getCaptcha(){
+async function getCaptcha(key){
   try {
     const resObj = await fetch('/captcha', {
-      method: 'POST'
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ key })
     });
     const res = await resObj.json();
     console.log(res);
@@ -40,7 +44,8 @@ function init(){
 
 window.onload = async function(){
   // this.init()
-  let captcha = await getCaptcha();
+  let apiKey = document.getElementById('captcha-container').getAttribute('data-apikey');
+  let captcha = await getCaptcha(apiKey);
   renderCaptcha(captcha.svg);
   window.captchaId = captcha._id;
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/example.css" >
+  <title>Document</title>
+</head>
+<body>
+  <h1>HELLO</h1>
+
+  <div id="container">   
+    <form id="form">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="Eg: test@example.com" required /> <br/>
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Atleast 6 characters" required> <br/>
+      
+      <div id="captcha-container" data-apikey="5e6f42d5660ca41440d4836e"></div> <br/>
+      <label for="captcha-value">Enter text in the picture above</label>
+      <input type="text" id="captcha-value" required> <br/>
+      
+      <input type="submit">
+    </form>
+  </div>
+  
+  <script src="/scripts/captcha.js"></script>
+  
+  <script>
+    var form = document.getElementById('form');
+    var captchaValue = document.getElementById('captcha-value');
+
+    form.onsubmit = function(e) {
+      e.preventDefault();
+
+      fetch('/captcha/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          captchaId: window.captchaId,
+          text: captchaValue.value
+        })
+      })
+        .then(res => res.json())
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
+  </script>
+</body>
+</html>
