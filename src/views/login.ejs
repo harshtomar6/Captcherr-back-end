@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  <title>Login | Captcher</title>
+</head>
+<body>
+
+  <%- include('./../partials/header.ejs') %>
+  <div class="container p-5" style="height: 80vh;">
+    <div class="alert alert-danger ml-auto mr-auto d-none" role="alert" style="max-width: 30rem;"></div>
+    <div class="card m-auto" style="max-width: 30rem;">
+      <div class="card-header">
+        Login
+      </div>
+      <div class="card-body">
+
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Enter E-mail" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-2 w-100">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <%- include('./../partials/footer.ejs') %>
+  <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+  <script>
+    var loginForm = document.getElementById('login-form');
+    var email = document.getElementById('email');
+    var password = document.getElementById('password');
+
+    loginForm.onsubmit = function(e) {
+      e.preventDefault();
+
+      fetch(`/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email.value,
+          password: password.value
+        })
+      }).then(res => res.json())
+        .then(res => {
+          if(res.err)
+            return renderAlert(res.err)
+        })
+        .catch(err => {
+          renderAlert(err.toString())
+        })
+    }
+
+    function renderAlert(msg) {
+      $('.alert').text(msg);
+      $('.alert').removeClass('d-none');
+    }
+  </script>
+</body>
+</html>

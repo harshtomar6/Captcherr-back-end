@@ -16,3 +16,21 @@ input {
   width: 300px;
   padding: 10px 30px;
 }
+
+#alert {
+  padding: 10px 15px;
+  border: 1px solid #f1f2f3;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: none;
+}
+
+.alert-success {
+  background-color: forestgreen;
+  color: #fff;
+}
+
+.alert-error {
+  background-color: indianred;
+  color: #fff;
+}

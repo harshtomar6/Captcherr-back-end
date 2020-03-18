@@ -7,15 +7,11 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>HELLO</h1>
+  <h1 style="text-align: center;">Captcherr DEMO</h1>
 
-  <div id="container">   
+  <div id="container">
+    <div id="alert"></div>   
     <form id="form">
-      <label for="email">Email</label>
-      <input id="email" type="email" placeholder="Eg: test@example.com" required /> <br/>
-      
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Atleast 6 characters" required> <br/>
       
       <div id="captcha-container" data-apikey="5e6f42d5660ca41440d4836e"></div> <br/>
       <label for="captcha-value">Enter text in the picture above</label>
@@ -30,6 +26,20 @@
   <script>
     var form = document.getElementById('form');
     var captchaValue = document.getElementById('captcha-value');
+    var apiKey = document.getElementById('captcha-container').getAttribute('data-apikey')
+
+    function renderAlert(type, msg) {
+      var alertContainer = document.getElementById('alert');
+      alertContainer.style.display = 'block';
+      alertContainer.innerText = msg;
+      switch(type) {
+        case 'error':
+          alertContainer.setAttribute('class', 'alert-error')
+          break;
+        case 'success':
+          alertContainer.setAttribute('class', 'alert-success')
+      }
+    }
 
     form.onsubmit = function(e) {
       e.preventDefault();
@@ -41,12 +51,24 @@
         },
         body: JSON.stringify({
           captchaId: window.captchaId,
+          key: apiKey,
           text: captchaValue.value
         })
       })
         .then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+        .then(res => {
+          if(res.err) {
+            renderAlert('error', res.err)
+            return
+          }
+          if(res.data.validated)
+            renderAlert('success', 'Captcha Verified')
+          else 
+            renderAlert('error', 'Invalid Captcha!')
+        })
+        .catch(err => {
+          renderAlert('error', err.toString())
+        })
     }
   </script>
 </body>

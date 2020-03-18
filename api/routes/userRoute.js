@@ -12,7 +12,7 @@ router.use(function(req, res, next) {
 // POST '/user/signup' to create new user
 router.post('/signup', async (req, res) => {
 
-  if(!req.body.name || !req.body.email || !req.body.email) {
+  if(!req.body.name || !req.body.email || !req.body.password) {
     res.status(400).send({ err: 'Required Fields are not present', data: null });
     return
   }

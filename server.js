@@ -32,6 +32,26 @@ app.set('views', path.resolve('./src/views'))
 // Set static
 app.use(express.static(__dirname+'/src'));
 
+app.get('/', (req, res) => {
+  res.render('index.ejs')
+});
+
+app.get('/get-started', (req, res) => {
+  res.render('get-started.ejs')
+})
+
+app.get('/sign-up', (req, res) => {
+  res.render('signup.ejs')
+})
+
+app.get('/login', (req, res) => {
+  res.render('login.ejs')
+})
+
+app.get('/profile', (req, res) => {
+  res.render('profile.ejs')
+})
+
 app.use('/captcha', captchaRouter)
 app.use('/user', userRouter)
 
