@@ -31,6 +31,7 @@ app.set('views', path.resolve('./src/views'))
 
 // Set static
 app.use(express.static(__dirname+'/src'));
+app.use(express.static(__dirname+'/public'));
 
 app.get('/', (req, res) => {
   res.render('index.ejs')
