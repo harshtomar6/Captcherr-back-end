@@ -30,15 +30,24 @@ const validateCaptcha = async (captchaId, text, key) => {
       return { err: 'Captcha already solved', status: 400, data: null };
 
     captcha.solved = true;
+
+    let resData = {
+      _id: captcha._id,
+      solved: captcha.solved,
+      user: captcha.user,
+      createdAt: captcha.createdAt
+    };
     if(captcha.text === text){
       captcha.validated = true;
+      resData.validated = true;
       await captcha.save();
-      return { err: null, status: 200, data: captcha };
+      return { err: null, status: 200, data: resData };
     }
 
     captcha.validated = false;
+    resData.validated = false;
     await captcha.save();
-    return { err: null, status: 200, data: captcha }
+    return { err: null, status: 200, data: resData }
 
   } catch (err) {
     return { err: err.toString(), status: 500, data: null }
